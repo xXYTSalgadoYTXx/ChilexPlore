@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block principal %}
+{% block styles %}
+<style>
+    .profile-img {
+        max-width: 200px;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .col-4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .waton {
+        width: 100%;
+    }
+</style>
+{% endblock %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-5 mb-5">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Perfil del Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Contenedor para centrar la imagen -->
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-center">
+                            {% if user.avatar %}
+                                <!-- Avatar con máscara circular -->
+                                <img src="{{ user.avatar.url }}" class="profile-img rounded-circle" alt="Avatar">
+                            {% else %}
+                                <!-- Imagen por defecto, con máscara circular -->
+                                <img src="/static/core/img/defaultprofile.jpg" class="profile-img rounded-circle" alt="Imagen por defecto">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <!-- Nombre y username del usuario -->
+                    <h5 class="text-center">{{ user.first_name }} {{ user.last_name }}</h5>
+                    <p class="text-center text-muted">@{{ user.username }}</p>
+                    <hr>
+                    <div class="mb-3">
+                        <strong>Correo Electrónico:</strong> {{ user.email }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Teléfono:</strong> {{ user.phone_number|default:"No especificado" }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Dirección:</strong> {{ user.address|default:"No especificada" }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Tipo de Usuario:</strong> 
+                        {% if user.user_type == 'business' %}
+                            Dueño de Negocio
+                        {% else %}
+                            Cliente
+                        {% endif %}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'editar_perfil' %}" class="btn btn-secondary">Editar Perfil</a>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger waton">
+                              Cerrar Sesión
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block principal %}
+<div class="container mt-5">
+    <h2 class="text-center">Mis Locales</h2>
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{% url 'crear_local' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Crear Nuevo Local
+        </a>
+    </div>
+    
+    {% if locales %}
+        <div class="list-group">
+            {% for local in locales %}
+                <div class="list-group-item">
+                    <h5 class="mb-1">{{ local.nombre }}</h5>
+                    <p class="mb-1">{{ local.direccion }}</p>
+                    <small>Categoría: {{ local.categoria }}</small>
+                    <div class="mt-3">
+                        <a href="{% url 'modificar_local' local.id %}" class="btn btn-warning btn-sm">Modificar</a>
+                        <a href="{% url 'eliminar_local' local.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            No tienes locales registrados. Haz clic en "Crear Nuevo Local" para añadir uno.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

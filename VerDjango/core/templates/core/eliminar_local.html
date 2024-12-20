@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block principal %}
+<div class="container mt-5">
+    <h2 class="text-center">Eliminar Local</h2>
+    <p>¿Estás seguro que deseas eliminar el local <strong>{{ local.nombre }}</strong>? Esta acción no se puede deshacer.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'mis_locales' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
